@@ -15,6 +15,28 @@ const About = lazy(() => import('about/App'));
 const Products = lazy(() => import('products/App'));
 const Contact = lazy(() => import('contact/App'));
 
+class RemoteErrorBoundary extends React.Component {
+  state = { error: null };
+
+  static getDerivedStateFromError(error) {
+    return { error };
+  }
+
+  render() {
+    if (this.state.error) {
+      return (
+        <section role="alert">
+          <h2>Unable to load this microfrontend</h2>
+          <p>{this.state.error.message}</p>
+          <p>Check that the remote app is running, then refresh this page.</p>
+        </section>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
 function App() {
   return (
     <HashRouter>
@@ -30,14 +52,16 @@ function App() {
       </header>
 
       <main className="main-content">
-        <Suspense fallback={<h2>Loading...</h2>}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/contact" element={<Contact />} />
-          </Routes>
-        </Suspense>
+        <RemoteErrorBoundary>
+          <Suspense fallback={<h2>Loading...</h2>}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/contact" element={<Contact />} />
+            </Routes>
+          </Suspense>
+        </RemoteErrorBoundary>
       </main>
 
       <footer className="footer">
