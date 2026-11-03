@@ -1,10 +1,11 @@
 
-import { lazy, Suspense } from 'react';
+import React, { lazy, Suspense } from 'react';
+
 import {
   HashRouter,
-  NavLink,
   Routes,
   Route,
+  NavLink
 } from 'react-router-dom';
 
 import './App.css';
@@ -28,14 +29,20 @@ function App() {
         </nav>
       </header>
 
-      <Suspense fallback={<p>Loading section...</p>}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
-      </Suspense>
+      <main className="main-content">
+        <Suspense fallback={<h2>Loading...</h2>}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/contact" element={<Contact />} />
+          </Routes>
+        </Suspense>
+      </main>
+
+      <footer className="footer">
+        <p>© 2026 ShopEase. All rights reserved.</p>
+      </footer>
     </HashRouter>
   );
 }

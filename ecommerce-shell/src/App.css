@@ -1,33 +1,30 @@
 
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
 body {
-  margin: 0;
   font-family: Arial, sans-serif;
   color: #202938;
 }
 
 .header {
+  background: #173b67;
+  color: white;
+  padding: 20px 6%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 16px;
-  padding: 18px 6%;
-  background: #173b67;
-  color: white;
-}
-
-.header h2 {
-  margin: 0;
+  gap: 15px;
 }
 
 .header nav {
   display: flex;
+  gap: 25px;
   flex-wrap: wrap;
-  gap: 22px;
 }
 
 .header nav a {
@@ -36,6 +33,17 @@ body {
 }
 
 .header nav a.active {
-  text-decoration: underline;
-  text-underline-offset: 6px;
+  color: #ffc857;
+}
+
+.main-content {
+  min-height: 75vh;
+  padding: 40px 6%;
+}
+
+.footer {
+  background: #173b67;
+  color: white;
+  text-align: center;
+  padding: 20px;
 }
