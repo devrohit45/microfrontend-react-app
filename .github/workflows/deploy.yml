@@ -1,0 +1,88 @@
+
+name: Deploy E-commerce Microfrontends
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Build All Applications
+        run: |
+          set -e
+
+          APPS="ecommerce-shell mf-home mf-about mf-products mf-contact"
+
+          for app in $APPS
+          do
+            echo "Installing $app"
+            npm --prefix "$app" install
+
+            echo "Building $app"
+            npm --prefix "$app" run build
+          done
+
+      - name: Verify Remote Entries
+        run: |
+          set -e
+
+          for app in mf-home mf-about mf-products mf-contact
+          do
+            test -f "$app/dist/assets/remoteEntry.js"
+            echo "$app remote entry found"
+          done
+
+      - name: Prepare GitHub Pages
+        run: |
+          mkdir -p public/mf-home
+          mkdir -p public/mf-about
+          mkdir -p public/mf-products
+          mkdir -p public/mf-contact
+
+          cp -R ecommerce-shell/dist/. public/
+
+          cp -R mf-home/dist/. public/mf-home/
+          cp -R mf-about/dist/. public/mf-about/
+          cp -R mf-products/dist/. public/mf-products/
+          cp -R mf-contact/dist/. public/mf-contact/
+
+          touch public/.nojekyll
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Build
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: public
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
