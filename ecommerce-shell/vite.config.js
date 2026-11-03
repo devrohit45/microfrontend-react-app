@@ -10,10 +10,10 @@ export default defineConfig({
     federation({
       name: 'ecommerce_shell',
       remotes: {
-        home: 'https://YOUR-USERNAME.github.io/mf-home/assets/remoteEntry.js',
-        about: 'https://YOUR-USERNAME.github.io/mf-about/assets/remoteEntry.js',
-        products: 'https://YOUR-USERNAME.github.io/mf-products/assets/remoteEntry.js',
-        contact: 'https://YOUR-USERNAME.github.io/mf-contact/assets/remoteEntry.js',
+        home: 'https://devrohit45.github.io/mf-home/assets/remoteEntry.js',
+        about: 'https://devrohit45.github.io/mf-about/assets/remoteEntry.js',
+        products: 'https://devrohit45.github.io/mf-products/assets/remoteEntry.js',
+        contact: 'https://devrohit45.github.io/mf-contact/assets/remoteEntry.js',
       },
       shared: ['react', 'react-dom'],
     }),
